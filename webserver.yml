@@ -1,0 +1,29 @@
+- hosts: webserver
+  tasks:
+   - name: "Installing Apache HTTPD"
+     package: 
+      name: "httpd"
+      state: present
+
+   - name: "Installing PHP Software"
+     package:
+      name: "php"
+      state: present
+
+   - name: "Deploying Website on the Web Server"
+     copy:
+      src: index.php
+      dest: /var/www/html/index.php 
+
+   - name: "Allowing Firewall at port number 80"
+     firewalld:
+      port: 80/tcp
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+   - name: "Starting Web Server"
+     service:
+      name: "httpd"
+      state: restarted
+
